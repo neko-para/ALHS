@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         艾利浩斯图书馆插件管理器
 // @namespace    https://ailihaosi.xyz/
-// @version      0.0.2
+// @version      0.0.3
 // @description  为图书馆的插件提供方便的设置和更新功能
 // @author       nekosu
 // @include      https://ailihaosi.xyz/
@@ -89,9 +89,9 @@
 	top: ${haveTopBar ? '32': '0'}px;
 	right: -200px;
 	width: 230px;
-	height: 100%;
 	z-index: 101;
 	transition: all 0.5s;
+	pointer-events: none;
 }
 #ALHS_AM_RIGHTPANNEL_BUTTON {
 	width: 0px;
@@ -99,6 +99,7 @@
     border-top: 30px solid transparent;
     border-bottom: 30px solid transparent;
     border-right: 30px solid #FFFFFF;
+	pointer-events: auto;
 }
 #ALHS_AM_RIGHTPANNEL {
 	width: 200px;
@@ -107,6 +108,7 @@
 	display: flex;
 	flex-direction: column;
 	scroll: auto;
+	pointer-events: auto;
 }
 .ALHS_AM_FS {
 	padding: 5px;
@@ -144,6 +146,7 @@
 				let obj = result.info[k];
 				let panel = ALHSAM_AddMenuSection(k);
 				panel.append(`<span>版本: ${obj.ver}</span>`);
+				panel.append(`<span>联系作者<a href='mailto:${result.mail[obj.author]}'>${obj.author}</a></span>`);
 				if (!(k in AddonConfig)) {
 					AddonConfig[k] = {
 						enable: false
