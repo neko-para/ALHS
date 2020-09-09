@@ -1,8 +1,12 @@
 {
 	"root": "https://neko-para.github.io/ALHS",
+	"mail": {
+		"nekosu": "liao.hy@outlook.com"
+	},
 	"info": {
 		"PopupArticleList": {
 			"ver": "0.3.4",
+			"author": "nekosu",
 			"src": "/PopupArticleList.js",
 			"desc": "在主页和各类合集中生成一个包含本页文章主要信息的表格",
 			"act": {
@@ -11,6 +15,7 @@
 		},
 		"CombineArticles": {
 			"ver": "0.1.4",
+			"author": "nekosu",
 			"src": "/CombineArticles.js",
 			"desc": "在含有多个章节的文章中自动加载其他章节并合并到同一页进行浏览",
 			"act": {
