@@ -4,6 +4,7 @@
 		"PopupArticleList": {
 			"ver": "0.3.3",
 			"src": "/PopupArticleList.js",
+			"desc": "在主页和各类合集中生成一个包含本页文章主要信息的表格",
 			"act": {
 				"idx": true
 			}
@@ -11,6 +12,7 @@
 		"CombineArticles": {
 			"ver": "0.1.3",
 			"src": "/CombineArticles.js",
+			"desc": "在含有多个章节的文章中自动加载其他章节并合并到同一页进行浏览",
 			"act": {
 				"page": true
 			}

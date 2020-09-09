@@ -1,13 +1,3 @@
-// ==UserScript==
-// @name         艾利浩斯图书馆浏览所有章节
-// @namespace    https://ailihaosi.xyz/
-// @version      0.1.3
-// @description  在含有多个章节的文章中自动加载其他章节并合并到同一页进行浏览
-// @author       nekosu
-// @include      https://ailihaosi.xyz/index.php/archives/*/*/*/
-// @grant        none
-// ==/UserScript==
-
 (function() {
 	'use strict';
 

@@ -17,6 +17,18 @@
 let AddonInfo = {};
 let AddonConfig = {};
 
+const PathRule = {
+	'idx': [
+		/^\/$/,
+		/^\/index\.php\/page\/\d+\/$/,
+		/^\/index\.php\/archives\/tag\/.+(?:\/page\/\d+)\/$/,
+		/^\/index\.php\/archives\/category\/.+(?:\/page\/\d+)\/$/
+	],
+	'page': [
+		/^\/index\.php\/archives\/\d{4}\/\d{2}\/\d+\/$/
+	]
+}
+
 function ALHSAM_AddMenuSection(title, id) {
 	let root = $(`<fieldset class='ALHS_AM_FS'>
 	<legend></legend>
@@ -35,10 +47,19 @@ function ALHSAM_AddMenuSection(title, id) {
 
 	AddonConfig = GM_getValue('AddonConfig', {});
 
-	let current = 'idx';
-	if (/^https:\/\/ailihaosi\.xyz\/index\.php\/archives\/\d{4}\/\d{2}\/\d+\/$/.exec(document.location.href)) {
-		current = 'page';
-	}
+	let current = 'unknown';
+	(function() {
+		let path = window.location.pathname;
+		for (let type in PathRule) {
+			for (let i = 0; i < PathRule[type].length; ++i) {
+				if (PathRule[type][i].exec(path)) {
+					current = type;
+					console.log(current);
+					return;
+				}
+			}
+		}
+	})();
 
 	$('body').append($('<style></style>').text(`
 #ALHS_AM_RIGHTDIV {
@@ -134,6 +155,12 @@ function ALHSAM_AddMenuSection(title, id) {
 							GM_setValue('AddonConfig', AddonConfig);
 							loadScript(result.info[name]);
 							enableCtrl.text('Enabled');
+							enableCtrl.unbind();
+							enableCtrl.click(() => {
+								AddonConfig[name].enable = false;
+								GM_setValue('AddonConfig', AddonConfig);
+								window.location.reload();
+							});
 						});
 					})();
 					panel.append(enableCtrl);

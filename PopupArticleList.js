@@ -1,17 +1,3 @@
-// ==UserScript==
-// @name         艾利浩斯图书馆弹出式文章列表
-// @namespace    https://ailihaosi.xyz/
-// @version      0.3.3
-// @description  在主页和各类合集中生成一个包含本页文章主要信息的表格
-// @author       nekosu
-// @include      https://ailihaosi.xyz/
-// @include      https://ailihaosi.xyz/index.php/page/*/
-// @include      https://ailihaosi.xyz/index.php/archives/category/*/
-// @include      https://ailihaosi.xyz/index.php/archives/tag/*/
-// @grant        none
-// @require      https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js
-// ==/UserScript==
-
 (function() {
     'use strict';
 	let nav = $('#site-navigation');
