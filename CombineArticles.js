@@ -283,7 +283,7 @@
 							btn.remove();
 							let obj = $('<code></code>').append($(result));
 							let dat = $('div.entry-content', obj);
-							dat.children().slice(3, -2).insertAfter($('#ALHS_CA_A_' + page).next());
+							dat.children().filter('section').eq(0).nextUntil('.related_posts').insertAfter($('#ALHS_CA_A_' + page).next());
 							retries[page] = () => {};
 						}
 					});
