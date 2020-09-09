@@ -14,10 +14,6 @@
 // @grant        GM_getValue
 // ==/UserScript==
 
-let AddonInfo = {};
-let AddonConfig = {};
-let PageInfo = {};
-
 function ALHSAM_AddMenuSection(title, id) {
 	let root = $(`<fieldset class='ALHS_AM_FS'>
 	<legend></legend>
@@ -34,9 +30,10 @@ function ALHSAM_AddMenuSection(title, id) {
 (function() {
 	'use strict';
 
+	let AddonConfig = {};
 	AddonConfig = GM_getValue('AddonConfig', {});
 
-	PageInfo = (function() {
+	let PageInfo = (function() {
 		let path = window.location.pathname;
 		let host = window.location.host;
 		if (path == '/') {
@@ -150,7 +147,14 @@ function ALHSAM_AddMenuSection(title, id) {
 				}
 				function loadScript(o) {
 					if (o.act[PageInfo.type]) {
-						$('body').append(`<script src="${result.root}${o.src}" />`);
+						$.ajax({
+							url: `${result.root}${o.src}`,
+							type: 'GET',
+							dataType: 'text',
+							success: function (script) {
+								eval(`let PageInfo = ${JSON.stringify(PageInfo)};${script}`);
+							}
+						});
 					} else {
 						panel.append('<span>Not active</span>');
 					}
