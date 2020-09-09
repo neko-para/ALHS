@@ -157,30 +157,8 @@
         table.appendChild(tr);
     });
     if ($('#main nav').length > 0) {
-        let url = document.location.href;
-        let mat;
-        do {
-            mat = /ailihaosi\.xyz\/$/.exec(url);
-            if (mat) {
-                curpage = 1;
-                urlpat = 'https://ailihaosi.xyz/index.php/page/@/';
-                break;
-            }
-            mat = /ailihaosi\.xyz\/index\.php\/page\/(\d+)\/$/.exec(url);
-            if (mat) {
-                curpage = Number(mat[1]);
-                urlpat = 'https://ailihaosi.xyz/index.php/page/@/';
-                break;
-            }
-            mat = /ailihaosi\.xyz\/index\.php\/archives\/([^/]+)\/([^/]+)\/$/.exec(url);
-            if (mat) {
-                curpage = Number(mat[2]);
-                urlpat = 'https://ailihaosi.xyz/index.php/archives/' + mat[1] + '/@/';
-                break;
-            }
-            curpage = null;
-            break;
-        } while (false);
+        urlpat = PageInfo.pattern;
+        curpage = PageInfo.page;
         pageNv.setAttribute('style', 'display:flex');
         maxpage = Number($('.nav-links').find('.page-numbers').not('.next').last().text());
 

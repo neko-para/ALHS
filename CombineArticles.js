@@ -1,9 +1,6 @@
 (function() {
 	'use strict';
 
-	if (!/https:\/\/ailihaosi\.xyz\/index\.php\/archives\/\d{4}\/\d{2}\/\d+/.exec(document.location.href)) {
-		return;
-	}
 	let menu = $('ul.post-series-list');
 	if (menu.length == 0) {
 		return;

@@ -16,18 +16,7 @@
 
 let AddonInfo = {};
 let AddonConfig = {};
-
-const PathRule = {
-	'idx': [
-		/^\/$/,
-		/^\/index\.php\/page\/\d+\/$/,
-		/^\/index\.php\/archives\/tag\/.+(?:\/page\/\d+)\/$/,
-		/^\/index\.php\/archives\/category\/.+(?:\/page\/\d+)\/$/
-	],
-	'page': [
-		/^\/index\.php\/archives\/\d{4}\/\d{2}\/\d+\/$/
-	]
-}
+let PageInfo = {};
 
 function ALHSAM_AddMenuSection(title, id) {
 	let root = $(`<fieldset class='ALHS_AM_FS'>
@@ -47,18 +36,50 @@ function ALHSAM_AddMenuSection(title, id) {
 
 	AddonConfig = GM_getValue('AddonConfig', {});
 
-	let current = 'unknown';
-	(function() {
+	PageInfo = (function() {
 		let path = window.location.pathname;
-		for (let type in PathRule) {
-			for (let i = 0; i < PathRule[type].length; ++i) {
-				if (PathRule[type][i].exec(path)) {
-					current = type;
-					console.log(current);
-					return;
-				}
-			}
+		let host = window.location.host;
+		if (path == '/') {
+			return {
+				type: 'idx',
+				page: 1,
+				pattern: `https://${host}/index.php/page/@/`
+			};
 		}
+		let mat;
+		mat = /^\/index\.php\/page\/(\d+)\/$/.exec(path);
+		if (mat) {
+			return {
+				type: 'idx',
+				page: Number(mat[1]),
+				pattern: `https://${host}/index.php/page/@/`
+			};
+		}
+		mat = /^\/index\.php\/archives\/tag\/(.+)(?:\/page\/(\d+))\/$/.exec(path);
+		if (mat) {
+			return {
+				type: 'idx',
+				page: mat.length == 3 ? Number(mat[2]) : 1,
+				pattern: `https://${host}/index.php/archives/tag/${mat[1]}/page/@/`
+			};
+		}
+		mat = /^\/index\.php\/archives\/category\/(.+)(?:\/page\/(\d+))\/$/.exec(path);
+		if (mat) {
+			return {
+				type: 'idx',
+				page: mat.length == 3 ? Number(mat[2]) : 1,
+				pattern: `https://${host}/index.php/archives/category/${mat[1]}/page/@/`
+			};
+		}
+		mat = /^\/index\.php\/archives\/\d{4}\/\d{2}\/\d+\/$/.exec(path);
+		if (mat) {
+			return {
+				type: 'page'
+			};
+		}
+		return {
+			type: 'unknown'
+		};
 	})();
 
 	$('body').append($('<style></style>').text(`
@@ -128,7 +149,7 @@ function ALHSAM_AddMenuSection(title, id) {
 					GM_setValue('AddonConfig', AddonConfig);
 				}
 				function loadScript(o) {
-					if (o.act[current]) {
+					if (o.act[PageInfo.type]) {
 						$('body').append(`<script src="${result.root}${o.src}" />`);
 					} else {
 						panel.append('<span>Not active</span>');
