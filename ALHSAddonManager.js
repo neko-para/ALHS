@@ -117,8 +117,11 @@ function ALHSAM_AddMenuSection(title, id) {
 	display: flex;
 	flex-direction: column;
 }
+.ALHS_AM_CLICKABLE {
+	cursor:url(http://wosn.net/zhizhen/link.cur),default;
+}
 	`), $(`<div id='ALHS_AM_RIGHTDIV'>
-	<div id='ALHS_AM_RIGHTPANNEL_BUTTON' class='ALHS_SHOW'></div>
+	<div id='ALHS_AM_RIGHTPANNEL_BUTTON' class='ALHS_AM_CLICKABLE'></div>
 	<div id='ALHS_AM_RIGHTPANNEL'></div>
 </div>`));
 
@@ -138,7 +141,7 @@ function ALHSAM_AddMenuSection(title, id) {
 			for (let k in result.info) {
 				let obj = result.info[k];
 				let panel = ALHSAM_AddMenuSection(k);
-				panel.append(`<span>Version: ${obj.ver}</span>`);
+				panel.append(`<span>版本: ${obj.ver}</span>`);
 				if (!(k in AddonConfig)) {
 					AddonConfig[k] = {
 						enable: false
@@ -156,11 +159,12 @@ function ALHSAM_AddMenuSection(title, id) {
 							}
 						});
 					} else {
-						panel.append('<span>Not active</span>');
+						panel.append('<span>此页面不适用</span>');
 					}
 				}
+				panel.append($('<span></span>').text(obj.desc));
 				if (AddonConfig[k].enable) {
-					let enableCtrl = $('<span>Enabled</span>');
+					let enableCtrl = $('<span class="ALHS_AM_CLICKABLE">已启用</span>');
 					(function () {
 						let name = k;
 						enableCtrl.click(() => {
@@ -172,14 +176,14 @@ function ALHSAM_AddMenuSection(title, id) {
 					panel.append(enableCtrl);
 					loadScript(obj);
 				} else {
-					let enableCtrl = $('<span>Disabled</span>');
+					let enableCtrl = $('<span class="ALHS_AM_CLICKABLE">已禁用</span>');
 					(function () {
 						let name = k;
 						enableCtrl.click(() => {
 							AddonConfig[name].enable = true;
 							GM_setValue('AddonConfig', AddonConfig);
 							loadScript(result.info[name]);
-							enableCtrl.text('Enabled');
+							enableCtrl.text('已启用');
 							enableCtrl.unbind();
 							enableCtrl.click(() => {
 								AddonConfig[name].enable = false;
