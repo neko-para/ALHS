@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         艾利浩斯图书馆插件管理器
 // @namespace    https://ailihaosi.xyz/
-// @version      0.0.1
+// @version      0.0.2
 // @description  为图书馆的插件提供方便的设置和更新功能
 // @author       nekosu
 // @include      https://ailihaosi.xyz/
