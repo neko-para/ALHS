@@ -80,12 +80,13 @@
 		};
 	})();
 
+    let haveTopBar = $('#wpadminbar').length > 0;
 	$('body').append($('<style></style>').text(`
 #ALHS_AM_RIGHTDIV {
 	display: flex;
 	flex-direction: row;
 	position: fixed;
-	top: 32px;
+	top: ${haveTopBar ? '32': '0'}px;
 	right: -200px;
 	width: 230px;
 	height: 100%;
