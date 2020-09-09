@@ -60,7 +60,7 @@
     border-radius:50%;
     position:fixed;
     z-index:101;
-    right:0px;
+    left:0px;
     top:32px;
     width:60px;
     height:60px;
