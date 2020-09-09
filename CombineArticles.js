@@ -128,7 +128,7 @@
 					rs.forEach(s => {
 						nn.push(trans(s));
 					});
-					nn.sort((a, b) => { return a < b; });
+					nn.sort((a, b) => { return a - b; });
 					let cansp = true;
 					for (let i = 1; i < nn.length; ++i) {
 						if (nn[i - 1] + 1 != nn[i]) {
