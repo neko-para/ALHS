@@ -3,7 +3,8 @@
 	let nav = $('#site-navigation');
 	if (nav.length == 0) {
 		nav = $('#sticky-navigation');
-	}
+    }
+    let haveTopBar = $('#wpadminbar').length > 0;
 	let theme = nav.css('background-color');
     let style = document.createElement('style');
     style.innerText = `
@@ -11,7 +12,7 @@
     position:fixed;
     z-index:101;
     left:50%;
-    top:92px;
+    top:${haveTopBar ? '92' : '60'}px;
     width:1100px;
     padding:10px 10px;
     transform:translate(-50%,0);
@@ -61,7 +62,7 @@
     position:fixed;
     z-index:101;
     left:0px;
-    top:32px;
+    top:${haveTopBar ? '32' : '0'}px;
     width:60px;
     height:60px;
     background:${theme};

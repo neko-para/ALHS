@@ -12,24 +12,25 @@
 // @include      https://ailihaosi.xyz/index.php/*/*/*/*/
 // @grant        GM_setValue
 // @grant        GM_getValue
+// @require      https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js
 // ==/UserScript==
-
-function ALHSAM_AddMenuSection(title, id) {
-	let root = $(`<fieldset class='ALHS_AM_FS'>
-	<legend></legend>
-	<div></div>
-</fieldset>`);
-	if (id) {
-		root.attr('id', id);
-	}
-	$('legend', root).text(title);
-	$('#ALHS_AM_RIGHTPANNEL').append(root);
-	return $('div', root);
-}
 
 (function() {
 	'use strict';
 
+	function ALHSAM_AddMenuSection(title, id) {
+		let root = $(`<fieldset class='ALHS_AM_FS'>
+		<legend></legend>
+		<div></div>
+	</fieldset>`);
+		if (id) {
+			root.attr('id', id);
+		}
+		$('legend', root).text(title);
+		$('#ALHS_AM_RIGHTPANNEL').append(root);
+		return $('div', root);
+	}
+	
 	let AddonConfig = {};
 	AddonConfig = GM_getValue('AddonConfig', {});
 
@@ -118,7 +119,7 @@ function ALHSAM_AddMenuSection(title, id) {
 	flex-direction: column;
 }
 .ALHS_AM_CLICKABLE {
-	cursor:url(http://wosn.net/zhizhen/link.cur),default;
+	cursor:url(https://wosn.net/zhizhen/link.cur),default;
 }
 	`), $(`<div id='ALHS_AM_RIGHTDIV'>
 	<div id='ALHS_AM_RIGHTPANNEL_BUTTON' class='ALHS_AM_CLICKABLE'></div>

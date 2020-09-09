@@ -15,7 +15,7 @@
 .ALHS_CA_BTN {
 	margin: 0px 0px 20px 50px;
 	background: ${theme} !important;
-	cursor: url(http://wosn.net/zhizhen/normal.cur),default !important;
+	cursor: url(https://wosn.net/zhizhen/normal.cur);
 }
 `;
     document.body.appendChild(style);
