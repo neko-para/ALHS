@@ -67,7 +67,7 @@
 		if (mt > 0.75 || series.length - mt <= 1) {
 			text = text.substr(series.length);
 		}
-		text = text.replace(/^[ -·]*/, '');
+		text = text.replace(/^[- ·]*/, '');
 		function doMatch(t, subkeys) {
 			let re = new RegExp(`[第（〈]* *([零一二三四五六七八九十百千万IVXLCDM0-9]+(?:-~[零一二三四五六七八九十百千万IVXLCDM0-9]+)?(?:、\+[零一二三四五六七八九十百千万IVXLCDM0-9]+)*) *[${subkeys}〉）]*`);
 			let mat = re.exec(t);
@@ -88,9 +88,9 @@
 			}
 			if (n) {
 				function trans(s) {
-					let idx = '零一二三四五六七八九';
 					let res = 0;
 					if (/[零一二三四五六七八九十百千万]/.exec(s)) {
+						let idx = '零一二三四五六七八九';
 						let mat;
 						mat = /([一二三四五六七八九])万/.exec(s);
 						if (mat) {
@@ -117,7 +117,7 @@
 							res += idx.indexOf(mat[1]);
 						}
 						return res;
-					} else if (/IVXLCDM/.exec(s)) {
+					} else if (/[IVXLCDM]/.exec(s)) {
 						while (/^M/.exec(s)) {
 							res += 1000;
 							s = s.substr(1);
