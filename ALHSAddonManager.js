@@ -1,20 +1,3 @@
-// ==UserScript==
-// @name         艾利浩斯图书馆插件管理器
-// @namespace    https://ailihaosi.xyz/
-// @version      0.0.3
-// @description  为图书馆的插件提供方便的设置和更新功能
-// @author       nekosu
-// @include      https://ailihaosi.xyz/
-// @include      https://ailihaosi.xyz/index.php/
-// @include      https://ailihaosi.xyz/index.php/*/
-// @include      https://ailihaosi.xyz/index.php/*/*/
-// @include      https://ailihaosi.xyz/index.php/*/*/*/
-// @include      https://ailihaosi.xyz/index.php/*/*/*/*/
-// @grant        GM_setValue
-// @grant        GM_getValue
-// @require      https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js
-// ==/UserScript==
-
 (function() {
 	'use strict';
 
@@ -53,7 +36,7 @@
 				pattern: `https://${host}/index.php/page/@/`
 			};
 		}
-		mat = /^\/index\.php\/archives\/tag\/(.+)(?:\/page\/(\d+))\/$/.exec(path);
+		mat = /^\/index\.php\/archives\/tag\/(.+)(?:\/page\/(\d+)?)\/$/.exec(path);
 		if (mat) {
 			return {
 				type: 'idx',
@@ -61,7 +44,7 @@
 				pattern: `https://${host}/index.php/archives/tag/${mat[1]}/page/@/`
 			};
 		}
-		mat = /^\/index\.php\/archives\/category\/(.+)(?:\/page\/(\d+))\/$/.exec(path);
+		mat = /^\/index\.php\/archives\/category\/(.+)(?:\/page\/(\d+)?)\/$/.exec(path);
 		if (mat) {
 			return {
 				type: 'idx',
@@ -136,6 +119,10 @@
 			$('#ALHS_AM_RIGHTDIV').css('right', state ? '0px' : '-200px');
 		});
 	})();
+
+	let panel = ALHSAM_AddMenuSection('AddonManager');
+	panel.append(`<span>版本: 0.1.0</span>`);
+	panel.append(`<span>联系作者<a href='mailto:liao.hy@outlook.com'>nekosu</a></span>`);
 
 	$.ajax({
 		url: 'https://neko-para.github.io/ALHS/ALHSAM.json',
