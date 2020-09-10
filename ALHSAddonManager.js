@@ -36,7 +36,7 @@
 				pattern: `https://${host}/index.php/page/@/`
 			};
 		}
-		mat = /^\/index\.php\/archives\/tag\/(.+)(?:\/page\/(\d+)?)\/$/.exec(path);
+		mat = /^\/index\.php\/archives\/tag\/(.+)(?:\/page\/(\d+))?\/$/.exec(path);
 		if (mat) {
 			return {
 				type: 'idx',
@@ -44,7 +44,7 @@
 				pattern: `https://${host}/index.php/archives/tag/${mat[1]}/page/@/`
 			};
 		}
-		mat = /^\/index\.php\/archives\/category\/(.+)(?:\/page\/(\d+)?)\/$/.exec(path);
+		mat = /^\/index\.php\/archives\/category\/(.+)(?:\/page\/(\d+))?\/$/.exec(path);
 		if (mat) {
 			return {
 				type: 'idx',
@@ -100,7 +100,7 @@
 	margin: 0px;
 }
 .ALHS_AM_FS > div {
-	background: #CFCFCF;
+	background: #EFEFEF;
 	display: flex;
 	flex-direction: column;
 }
