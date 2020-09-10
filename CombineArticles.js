@@ -67,9 +67,9 @@
 		if (mt > 0.75 || series.length - mt <= 1) {
 			text = text.substr(series.length);
 		}
-		text = text.replace(/^[ -]*/, '');
+		text = text.replace(/^[ -·]*/, '');
 		function doMatch(t, subkeys) {
-			let re = new RegExp(`[第（〈]* *([零一二三四五六七八九十百千万0-9]+(?:-[零一二三四五六七八九十百千万0-9]+)?(?:、\+[零一二三四五六七八九十百千万0-9]+)*) *[${subkeys}〉）]*`);
+			let re = new RegExp(`[第（〈]* *([零一二三四五六七八九十百千万IVXLCDM0-9]+(?:-~[零一二三四五六七八九十百千万IVXLCDM0-9]+)?(?:、\+[零一二三四五六七八九十百千万IVXLCDM0-9]+)*) *[${subkeys}〉）]*`);
 			let mat = re.exec(t);
 			let h = null, n = null, r = null, b = 0;
 			if (!mat) {
@@ -117,6 +117,60 @@
 							res += idx.indexOf(mat[1]);
 						}
 						return res;
+					} else if (/IVXLCDM/.exec(s)) {
+						while (/^M/.exec(s)) {
+							res += 1000;
+							s = s.substr(1);
+						}
+						if (/^CM/.exec(s)) {
+							res += 900;
+							s = s.substr(2);
+						}
+						if (/^CD/.exec(s)) {
+							res += 400;
+							s = s.substr(2);
+						}
+						if (/^D/.exec(s)) {
+							res += 500;
+							s = s.substr(1);
+						}
+						while (/^C/.exec(s)) {
+							res += 100;
+							s = s.substr(1);
+						}
+						if (/^XC/.exec(s)) {
+							res += 90;
+							s = s.substr(2);
+						}
+						if (/^XL/.exec(s)) {
+							res += 40;
+							s = s.substr(2);
+						}
+						if (/^L/.exec(s)) {
+							res += 50;
+							s = s.substr(1);
+						}
+						while (/^X/.exec(s)) {
+							res += 10;
+							s = s.substr(1);
+						}
+						if (/^IX/.exec(s)) {
+							res += 90;
+							s = s.substr(2);
+						}
+						if (/^IV/.exec(s)) {
+							res += 4;
+							s = s.substr(2);
+						}
+						if (/^V/.exec(s)) {
+							res += 5;
+							s = s.substr(1);
+						}
+						while (/^I/.exec(s)) {
+							res += 1;
+							s = s.substr(1);
+						}
+						return res;
 					} else {
 						return Number(s);
 					}
@@ -154,7 +208,7 @@
 				n = res;
 			}
 			if (r) {
-				r = r.replace(/^[ \-，]*/, '');
+				r = r.replace(/^[ \-，·]*/, '');
 			}
 			return {
 				h: h, n: n, r: r, b: b
