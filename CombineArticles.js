@@ -69,7 +69,7 @@
 		}
 		text = text.replace(/^[- ·]*/, '');
 		function doMatch(t, subkeys) {
-			let re = new RegExp(`[第（〈]* *([零一二三四五六七八九十百千万IVXLCDM0-9]+(?:-~[零一二三四五六七八九十百千万IVXLCDM0-9]+)?(?:、\+[零一二三四五六七八九十百千万IVXLCDM0-9]+)*) *[${subkeys}〉）]*`);
+			let re = new RegExp(`[第（〈]* *([零一二三四五六七八九十百千万IVXLCDM0-9]+(?:[-~到]?[零一二三四五六七八九十百千万IVXLCDM0-9]+)?(?:、\+[零一二三四五六七八九十百千万IVXLCDM0-9]+)*) *[${subkeys}〉）]*`);
 			let mat = re.exec(t);
 			let h = null, n = null, r = null, b = 0;
 			if (!mat) {
@@ -253,6 +253,12 @@
 			return 0;
 		}
 		function calcPr(s) {
+			if (/设定/.exec(s)) {
+				return 4;
+			}
+			if (/背景/.exec(s)) {
+				return 3;
+			}
 			if (/序/.exec(s)) {
 				return 2;
 			}

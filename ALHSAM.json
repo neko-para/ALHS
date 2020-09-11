@@ -14,7 +14,7 @@
 			}
 		},
 		"CombineArticles": {
-			"ver": "0.1.5",
+			"ver": "0.1.6",
 			"author": "nekosu",
 			"src": "/CombineArticles.js",
 			"desc": "在含有多个章节的文章中自动加载其他章节并合并到同一页进行浏览",
