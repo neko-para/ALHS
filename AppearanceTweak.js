@@ -2,9 +2,6 @@
 	let style = $('<style />');
 	let font = '';
 	let cfg = config;
-	if (cfg.font) {
-		font = cfg.font;
-	}
 	function updateStyle() {
 		let res = '';
 		if (font.length > 0) {
@@ -14,8 +11,14 @@
 	}
 	let root = $(`<div class="ALHS_AM_CONFIG"><span>字体</span><input type="text" /></div>`);
 	let input = $('input', root);
+	if (cfg.font) {
+		font = cfg.font;
+		input.val(font);
+		updateStyle();
+	}
 	input.on('input', function () {
 		font = input.val().replace(/^\s*/, '').replace(/\s*$/, '');
+		input.val(font);
 		cfg.font = font;
 		updateConfig();
 		updateStyle();
