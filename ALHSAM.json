@@ -21,6 +21,16 @@
 			"act": {
 				"page": true
 			}
+		},
+		"AppearanceTweak": {
+			"ver": "0.0.1",
+			"author": "nekosu",
+			"src": "/AppearanceTweak.js",
+			"desc": "自定义页面的部分外观",
+			"act": {
+				"idx": true,
+				"page": true
+			}
 		}
 	}
 }

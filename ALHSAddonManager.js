@@ -107,6 +107,17 @@
 .ALHS_AM_CLICKABLE {
 	cursor:url(https://wosn.net/zhizhen/link.cur),default;
 }
+.ALHS_AM_CONFIG {
+	display: flex;
+	flex-direction: column;
+}
+.ALHS_AM_CONFIG_ROW {
+	display: flex;
+	flex-direction: row;
+}
+.ALHS_AM_CONFIG_ROW>input[type=text] {
+	padding: 2px;
+}
 	`), $(`<div id='ALHS_AM_RIGHTDIV'>
 	<div id='ALHS_AM_RIGHTPANNEL_BUTTON' class='ALHS_AM_CLICKABLE'></div>
 	<div id='ALHS_AM_RIGHTPANNEL'></div>
@@ -147,7 +158,7 @@
 							type: 'GET',
 							dataType: 'text',
 							success: function (script) {
-								eval(`let PageInfo = ${JSON.stringify(PageInfo)};${script}`);
+								eval(script);
 							}
 						});
 					} else {
