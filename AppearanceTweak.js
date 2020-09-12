@@ -2,6 +2,9 @@
 	let style = $('<style />');
 	let font = '';
 	let cfg = config;
+	if (cfg.font) {
+		font = cfg.font;
+	}
 	function updateStyle() {
 		let res = '';
 		if (font.length > 0) {
