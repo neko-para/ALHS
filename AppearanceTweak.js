@@ -6,12 +6,13 @@
 		if (font.length > 0) {
 			res += `* { font-family: ${font}; }`;
 		}
+		style.text(res);
 	}
 	let root = $(`<div class="ALHS_AM_CONFIG_ROW"><span style="margin-right: 5px">字体:</span><input type="text" /></div>`);
 	let input = $('input', root);
-	input.value(font);
+	input.val(font);
 	input.input(function () {
-		font = input.value().replace(/^\s*/, '').replace(/\s*$/, '');
+		font = input.val().replace(/^\s*/, '').replace(/\s*$/, '');
 		updateStyle();
 	});
 	panel.append(root);
