@@ -111,11 +111,7 @@
 	display: flex;
 	flex-direction: column;
 }
-.ALHS_AM_CONFIG_ROW {
-	display: flex;
-	flex-direction: row;
-}
-.ALHS_AM_CONFIG_ROW>input[type=text] {
+.ALHS_AM_CONFIG>input[type=text] {
 	padding: 2px;
 }
 	`), $(`<div id='ALHS_AM_RIGHTDIV'>
@@ -145,11 +141,14 @@
 				let panel = ALHSAM_AddMenuSection(k);
 				panel.append(`<span>版本: ${obj.ver}</span>`);
 				panel.append(`<span>联系作者<a href='mailto:${result.mail[obj.author]}'>${obj.author}</a></span>`);
+				function updateConfig() {
+					GM_setValue('AddonConfig', AddonConfig);
+				}
 				if (!(k in AddonConfig)) {
 					AddonConfig[k] = {
 						enable: false
 					};
-					GM_setValue('AddonConfig', AddonConfig);
+					updateConfig();
 				}
 				function loadScript(o) {
 					if (o.act[PageInfo.type]) {
@@ -158,6 +157,7 @@
 							type: 'GET',
 							dataType: 'text',
 							success: function (script) {
+								let config = AddonConfig[k];
 								eval(script);
 							}
 						});

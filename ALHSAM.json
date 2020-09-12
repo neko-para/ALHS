@@ -23,7 +23,7 @@
 			}
 		},
 		"AppearanceTweak": {
-			"ver": "0.0.2",
+			"ver": "0.0.3",
 			"author": "nekosu",
 			"src": "/AppearanceTweak.js",
 			"desc": "自定义页面的部分外观",
