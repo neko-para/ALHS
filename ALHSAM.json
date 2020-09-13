@@ -29,7 +29,8 @@
 			"desc": "自定义页面的部分外观",
 			"act": {
 				"idx": true,
-				"page": true
+				"page": true,
+				"unknown": true
 			}
 		}
 	}
