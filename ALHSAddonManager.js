@@ -146,10 +146,10 @@
 		if ('expand' in AddonConfig[name]) {
 			state = AddonConfig[name].expand;
 		}
-		ui.css('display', state ? 'block' : 'none');
+		ui.css('display', state ? 'flex' : 'none');
 		$('legend', ui.parent()).click(function () {
 			state = !state;
-			ui.css('display', state ? 'block' : 'none');
+			ui.css('display', state ? 'flex' : 'none');
 			AddonConfig[name].expand = state;
 			updateConfig();
 		});
