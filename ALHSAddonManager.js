@@ -3,7 +3,7 @@
 (function() {
 	'use strict';
 
-	function ALHSAM_AddMenuSection(title, id) {
+	function addMenuSection(title, id) {
 		let root = $(`<fieldset class='ALHS_AM_FS'>
 		<legend></legend>
 		<div></div>
@@ -74,6 +74,7 @@
 	top: ${haveTopBar ? '32': '0'}px;
 	right: -200px;
 	width: 230px;
+	height: 100%;
 	z-index: 101;
 	transition: all 0.5s;
 	pointer-events: none;
@@ -94,9 +95,6 @@
 	flex-direction: column;
 	scroll: auto;
 	pointer-events: auto;
-}
-.ALHS_AM_FS {
-	padding: 5px;
 }
 .ALHS_AM_FS legend {
 	margin: 0px;
@@ -134,7 +132,7 @@
 	}
 
 	function addSection(name) {
-		let panel = ALHSAM_AddMenuSection(name);
+		let panel = addMenuSection(name);
 		let info = queryInfo(name);
 		panel.append($('<span></span>').text(`版本：${info.ver}`));
 		panel.append(`<span>联系作者：<a href='${info.mail}'>${info.author}</a></span>`);
@@ -149,10 +147,26 @@
 		let panel = addSection(k);
 		if (!(k in AddonConfig)) {
 			AddonConfig[k] = {
-				enable: false
+				enable: false,
+				expand: true
 			};
 			updateConfig();
 		}
+		(function () {
+			let ui = panel;
+			let name = k;
+			let state = true;
+			if ('expand' in AddonConfig[name]) {
+				state = AddonConfig[name].expand;
+			}
+			ui.css('display', state ? 'block' : 'none');
+			$('legend', ui.parent()).click(function () {
+				state = !state;
+				ui.css('display', state ? 'block' : 'none');
+				AddonConfig[name].expand = state;
+				updateConfig();
+			});
+		})();
 		function loadScript(o, p) {
 			let config = AddonConfig[k]; // eslint-disable-line no-unused-vars
 			let panel = p; // eslint-disable-line no-unused-vars
