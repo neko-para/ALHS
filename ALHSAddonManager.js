@@ -142,7 +142,7 @@
 
 	addSection('ALHSAddonManager');
 
-	for (let k in queryAddonNames()) {
+	queryAddonNames().forEach(k => {
 		let obj = queryInfo(k);
 		let panel = addSection(k);
 		if (!(k in AddonConfig)) {
@@ -189,5 +189,5 @@
 			})();
 			panel.append(enableCtrl);
 		}
-	}
+	});
 })();
