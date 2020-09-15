@@ -15,7 +15,7 @@
 	}
 	
 	let AddonConfig = {};
-	AddonConfig = GM_getValue('AddonConfig', {});
+	AddonConfig = GM_getValue('config', {});
 
 	let PageInfo = (function() {
 		let path = window.location.pathname;
@@ -126,78 +126,68 @@
 			$('#ALHS_AM_RIGHTDIV').css('right', state ? '0px' : '-200px');
 		});
 	})();
+	
+	function updateConfig() {
+		GM_setValue('config', AddonConfig);
+	}
 
-	let panel = ALHSAM_AddMenuSection('AddonManager');
-	panel.append(`<span>版本: 0.1.0</span>`);
-	panel.append(`<span>联系作者<a href='mailto:liao.hy@outlook.com'>nekosu</a></span>`);
+	function addSection(name) {
+		let panel = ALHSAM_AddMenuSection(name);
+		let info = queryInfo(name);
+		panel.append($('<span></span>').text(`版本：${info.ver}`));
+		panel.append(`<span>联系作者：<a href='${info.mail}'>${info.author}</a></span>`);
+		panel.append($('<span></span>').text(info.desc));
+		return panel;
+	}
 
-	$.ajax({
-		url: 'https://neko-para.github.io/ALHS/ALHSAM.json',
-		type: 'GET',
-		dataType: 'json',
-		success: function(result) {
-			for (let k in result.info) {
-				let obj = result.info[k];
-				let panel = ALHSAM_AddMenuSection(k);
-				panel.append(`<span>版本: ${obj.ver}</span>`);
-				panel.append(`<span>联系作者<a href='mailto:${result.mail[obj.author]}'>${obj.author}</a></span>`);
-				function updateConfig() {
-					GM_setValue('AddonConfig', AddonConfig);
-				}
-				if (!(k in AddonConfig)) {
-					AddonConfig[k] = {
-						enable: false
-					};
-					updateConfig();
-				}
-				function loadScript(o) {
-					if (o.act[PageInfo.type]) {
-						$.ajax({
-							url: `${result.root}${o.src}`,
-							type: 'GET',
-							dataType: 'text',
-							success: function (script) {
-								let config = AddonConfig[k];
-								eval(script);
-							}
-						});
-					} else {
-						panel.append('<span>此页面不适用</span>');
-					}
-				}
-				panel.append($('<span></span>').text(obj.desc));
-				if (AddonConfig[k].enable) {
-					let enableCtrl = $('<span class="ALHS_AM_CLICKABLE">已启用</span>');
-					(function () {
-						let name = k;
-						enableCtrl.click(() => {
-							AddonConfig[name].enable = false;
-							GM_setValue('AddonConfig', AddonConfig);
-							window.location.reload();
-						});
-					})();
-					panel.append(enableCtrl);
-					loadScript(obj);
-				} else {
-					let enableCtrl = $('<span class="ALHS_AM_CLICKABLE">已禁用</span>');
-					(function () {
-						let name = k;
-						enableCtrl.click(() => {
-							AddonConfig[name].enable = true;
-							GM_setValue('AddonConfig', AddonConfig);
-							loadScript(result.info[name]);
-							enableCtrl.text('已启用');
-							enableCtrl.unbind();
-							enableCtrl.click(() => {
-								AddonConfig[name].enable = false;
-								GM_setValue('AddonConfig', AddonConfig);
-								window.location.reload();
-							});
-						});
-					})();
-					panel.append(enableCtrl);
-				}
+	addSection('ALHSAddonManager');
+
+	for (let k in queryAddonNames()) {
+		let obj = queryInfo(k);
+		let panel = addSection(k);
+		if (!(k in AddonConfig)) {
+			AddonConfig[k] = {
+				enable: false
+			};
+			updateConfig();
+		}
+		function loadScript(o) {
+			if (o.act[PageInfo.type]) {
+				runScript(k, AddonConfig[k]);
+			} else {
+				panel.append('<span>此页面不适用</span>');
 			}
 		}
-	});
+		if (AddonConfig[k].enable) {
+			let enableCtrl = $('<span class="ALHS_AM_CLICKABLE">已启用</span>');
+			(function () {
+				let name = k;
+				enableCtrl.click(() => {
+					AddonConfig[name].enable = false;
+					GM_setValue('config', AddonConfig);
+					window.location.reload();
+				});
+			})();
+			panel.append(enableCtrl);
+			loadScript(obj);
+		} else {
+			let enableCtrl = $('<span class="ALHS_AM_CLICKABLE">已禁用</span>');
+			(function () {
+				let name = k;
+				enableCtrl.click(() => {
+					AddonConfig[name].enable = true;
+					GM_setValue('config', AddonConfig);
+					loadScript(result.info[name]);
+					enableCtrl.text('已启用');
+					enableCtrl.unbind();
+					enableCtrl.click(() => {
+						AddonConfig[name].enable = false;
+						GM_setValue('config', AddonConfig);
+						window.location.reload();
+					});
+				});
+			})();
+			panel.append(enableCtrl);
+		}
+	}
 })();

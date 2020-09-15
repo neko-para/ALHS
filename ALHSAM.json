@@ -4,6 +4,12 @@
 		"nekosu": "liao.hy@outlook.com"
 	},
 	"info": {
+		"ALHSAddonManager": {
+			"ver": "0.1.0",
+			"author": "nekosu",
+			"src": "/ALHSAddonManager.js",
+			"desc": "插件管理器"
+		},
 		"PopupArticleList": {
 			"ver": "0.3.4",
 			"author": "nekosu",

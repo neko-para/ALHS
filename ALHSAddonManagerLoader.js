@@ -11,13 +11,49 @@
 // @require      https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js
 // ==/UserScript==
 
-(function() {
-	$.ajax({
-		url: 'https://neko-para.github.io/ALHS/ALHSAddonManager.js',
-		type: 'GET',
-		dataType: 'text',
-		success: function(result) {
-			eval(result);
+(async function() {
+	let cache = GM_getValue('cache', {});
+	async function request(url) {
+		return new Promise((res, rej) => {
+			$.ajax({
+				url: url,
+				type: 'GET',
+				dataType: 'text',
+				success: function(result) {
+					res(result);
+				},
+				error: function(e) {
+					rej(e);
+				}
+			});
+		});
+	}
+	async function updateScript(name, version, url) {
+		if (!(name in cache) || cache[name].ver != version) {
+			cache[name] = {
+				ver: version,
+				src: await request(url);
+			};
 		}
-	});
+	}
+	function runScript(name, config) {
+		eval(cache[name].src);
+	}
+	let AddonInfo = JSON.parse(await request('https://neko-para.github.io/ALHS/ALHSAM.json'));
+	function queryAddonNames() {
+		return Object.keys(AddonInfo.info).filter(k => { return k != 'ALHSAddonManager'; });
+	}
+	function queryInfo(name) {
+		let obj = AddonInfo.info[name];
+		obj.mail = AddonInfo.mail[obj.author];
+		return obj;
+	}
+	let pros = [];
+	for (let key in AddonInfo.info) {
+		let obj = AddonInfo.info[key];
+		pros.push(updateScript(key, obj.ver, AddonInfo.root + obj.src));
+	}
+	await Promise.all(pros);
+	GM_setValue('cache', cache);
+	runScript('ALHSAddonManager', null);
 })();
