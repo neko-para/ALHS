@@ -1,3 +1,5 @@
+/* global $ config panel updateConfig */
+
 (function() {
 	let style = $('<style />');
 	let font = '';

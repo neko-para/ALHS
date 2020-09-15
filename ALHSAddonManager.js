@@ -1,3 +1,5 @@
+/* global $ GM_setValue GM_getValue queryAddonNames queryInfo getScript */
+
 (function() {
 	'use strict';
 
@@ -152,8 +154,8 @@
 			updateConfig();
 		}
 		function loadScript(o, p) {
-			let config = AddonConfig[k];
-			let panel = p;
+			let config = AddonConfig[k]; // eslint-disable-line no-unused-vars
+			let panel = p; // eslint-disable-line no-unused-vars
 			if (o.act[PageInfo.type]) {
 				eval(getScript(k));
 			} else {

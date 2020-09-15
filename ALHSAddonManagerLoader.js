@@ -11,6 +11,8 @@
 // @require      https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js
 // ==/UserScript==
 
+/* global $ GM_setValue GM_getValue */
+
 (async function() {
 	let cache = GM_getValue('cache', {});
 	async function request(url) {
@@ -45,10 +47,10 @@
 		return cache[name].src;
 	}
 	let AddonInfo = JSON.parse(await request('https://neko-para.github.io/ALHS/ALHSAM.json'));
-	function queryAddonNames() {
+	function queryAddonNames() { // eslint-disable-line no-unused-vars
 		return Object.keys(AddonInfo.info).filter(k => { return k != 'ALHSAddonManager'; });
 	}
-	function queryInfo(name) {
+	function queryInfo(name) { // eslint-disable-line no-unused-vars
 		let obj = AddonInfo.info[name];
 		obj.mail = AddonInfo.mail[obj.author];
 		return obj;

@@ -1,3 +1,5 @@
+/* global $ PageInfo */
+
 (function() {
     'use strict';
 	let nav = $('#site-navigation');
@@ -117,7 +119,6 @@
     popup.appendChild(popupin);
     let table = document.createElement('table');
     table.setAttribute('id', 'ALHS_PAL_TABLE');
-    let main = document.getElementById('main');
     $('#main article').each(function() {
         let title = $(this).find('.entry-title').children();
         let author = $(this).find('.author').children();

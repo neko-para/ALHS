@@ -1,3 +1,5 @@
+/* global $ */
+
 (function() {
 	'use strict';
 
@@ -69,9 +71,97 @@
 		}
 		text = text.replace(/^[- ·]*/, '');
 		function doMatch(t, subkeys) {
-			let re = new RegExp(`[第（〈 ]*([零一二三四五六七八九十百千万IVXLCDM0-9]+(?:[-~到]?[零一二三四五六七八九十百千万IVXLCDM0-9]+)?(?:[、\+][零一二三四五六七八九十百千万IVXLCDM0-9]+)*) *[${subkeys}〉）]*`);
+			let re = new RegExp(`[第（〈 ]*([零一二三四五六七八九十百千万IVXLCDM0-9]+(?:[-~到]?[零一二三四五六七八九十百千万IVXLCDM0-9]+)?(?:[、+][零一二三四五六七八九十百千万IVXLCDM0-9]+)*) *[${subkeys}〉）]*`);
 			let mat = re.exec(t);
 			let h = null, n = null, r = null, b = 0;
+			function trans(s) {
+				let res = 0;
+				if (/[零一二三四五六七八九十百千万]/.exec(s)) {
+					let idx = '零一二三四五六七八九';
+					let mat;
+					mat = /([一二三四五六七八九])万/.exec(s);
+					if (mat) {
+						res += 10000 * idx.indexOf(mat[1]);
+					}
+					mat = /([一二三四五六七八九])千/.exec(s);
+					if (mat) {
+						res += 1000 * idx.indexOf(mat[1]);
+					}
+					mat = /([一二三四五六七八九])百/.exec(s);
+					if (mat) {
+						res += 100 * idx.indexOf(mat[1]);
+					}
+					mat = /([一二三四五六七八九])十/.exec(s);
+					if (mat) {
+						res += 10 * idx.indexOf(mat[1]);
+					}
+					mat = /^十/.exec(s);
+					if (mat) {
+						res += 10;
+					}
+					mat = /([一二三四五六七八九])$/.exec(s);
+					if (mat) {
+						res += idx.indexOf(mat[1]);
+					}
+					return res;
+				} else if (/[IVXLCDM]/.exec(s)) {
+					while (/^M/.exec(s)) {
+						res += 1000;
+						s = s.substr(1);
+					}
+					if (/^CM/.exec(s)) {
+						res += 900;
+						s = s.substr(2);
+					}
+					if (/^CD/.exec(s)) {
+						res += 400;
+						s = s.substr(2);
+					}
+					if (/^D/.exec(s)) {
+						res += 500;
+						s = s.substr(1);
+					}
+					while (/^C/.exec(s)) {
+						res += 100;
+						s = s.substr(1);
+					}
+					if (/^XC/.exec(s)) {
+						res += 90;
+						s = s.substr(2);
+					}
+					if (/^XL/.exec(s)) {
+						res += 40;
+						s = s.substr(2);
+					}
+					if (/^L/.exec(s)) {
+						res += 50;
+						s = s.substr(1);
+					}
+					while (/^X/.exec(s)) {
+						res += 10;
+						s = s.substr(1);
+					}
+					if (/^IX/.exec(s)) {
+						res += 90;
+						s = s.substr(2);
+					}
+					if (/^IV/.exec(s)) {
+						res += 4;
+						s = s.substr(2);
+					}
+					if (/^V/.exec(s)) {
+						res += 5;
+						s = s.substr(1);
+					}
+					while (/^I/.exec(s)) {
+						res += 1;
+						s = s.substr(1);
+					}
+					return res;
+				} else {
+					return Number(s);
+				}
+			}
 			if (!mat) {
 				if (t.length > 0) {
 					h = t;
@@ -87,94 +177,6 @@
 				h = h.replace(/^[ \-，]*/, '').replace(/[ \-，]*$/, '').replace(/^（(.*)）$/, '$1');
 			}
 			if (n) {
-				function trans(s) {
-					let res = 0;
-					if (/[零一二三四五六七八九十百千万]/.exec(s)) {
-						let idx = '零一二三四五六七八九';
-						let mat;
-						mat = /([一二三四五六七八九])万/.exec(s);
-						if (mat) {
-							res += 10000 * idx.indexOf(mat[1]);
-						}
-						mat = /([一二三四五六七八九])千/.exec(s);
-						if (mat) {
-							res += 1000 * idx.indexOf(mat[1]);
-						}
-						mat = /([一二三四五六七八九])百/.exec(s);
-						if (mat) {
-							res += 100 * idx.indexOf(mat[1]);
-						}
-						mat = /([一二三四五六七八九])十/.exec(s);
-						if (mat) {
-							res += 10 * idx.indexOf(mat[1]);
-						}
-						mat = /^十/.exec(s);
-						if (mat) {
-							res += 10;
-						}
-						mat = /([一二三四五六七八九])$/.exec(s);
-						if (mat) {
-							res += idx.indexOf(mat[1]);
-						}
-						return res;
-					} else if (/[IVXLCDM]/.exec(s)) {
-						while (/^M/.exec(s)) {
-							res += 1000;
-							s = s.substr(1);
-						}
-						if (/^CM/.exec(s)) {
-							res += 900;
-							s = s.substr(2);
-						}
-						if (/^CD/.exec(s)) {
-							res += 400;
-							s = s.substr(2);
-						}
-						if (/^D/.exec(s)) {
-							res += 500;
-							s = s.substr(1);
-						}
-						while (/^C/.exec(s)) {
-							res += 100;
-							s = s.substr(1);
-						}
-						if (/^XC/.exec(s)) {
-							res += 90;
-							s = s.substr(2);
-						}
-						if (/^XL/.exec(s)) {
-							res += 40;
-							s = s.substr(2);
-						}
-						if (/^L/.exec(s)) {
-							res += 50;
-							s = s.substr(1);
-						}
-						while (/^X/.exec(s)) {
-							res += 10;
-							s = s.substr(1);
-						}
-						if (/^IX/.exec(s)) {
-							res += 90;
-							s = s.substr(2);
-						}
-						if (/^IV/.exec(s)) {
-							res += 4;
-							s = s.substr(2);
-						}
-						if (/^V/.exec(s)) {
-							res += 5;
-							s = s.substr(1);
-						}
-						while (/^I/.exec(s)) {
-							res += 1;
-							s = s.substr(1);
-						}
-						return res;
-					} else {
-						return Number(s);
-					}
-				}
 				let rs = n.split(/[、+]/);
 				let res = '';
 				if (rs.length > 1) {
@@ -277,7 +279,7 @@
 		} else {
 			return pr2 - pr1;
 		}
-	};
+	}
 	data.sort((a, b) => {
 		let t;
 		t = sortTitle(a.title[0], b.title[0]);
