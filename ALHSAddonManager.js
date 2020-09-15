@@ -151,11 +151,11 @@
 			};
 			updateConfig();
 		}
-		function loadScript(o) {
+		function loadScript(o, p) {
 			if (o.act[PageInfo.type]) {
-				runScript(k, AddonConfig[k]);
+				runScript(k, AddonConfig[k], p);
 			} else {
-				panel.append('<span>此页面不适用</span>');
+				p.append('<span>此页面不适用</span>');
 			}
 		}
 		if (AddonConfig[k].enable) {
@@ -169,16 +169,17 @@
 				});
 			})();
 			panel.append(enableCtrl);
-			loadScript(obj);
+			loadScript(obj, panel);
 		} else {
 			let enableCtrl = $('<span class="ALHS_AM_CLICKABLE">已禁用</span>');
 			(function () {
 				let name = k;
 				let info = obj;
+				let ui = panel;
 				enableCtrl.click(() => {
 					AddonConfig[name].enable = true;
 					GM_setValue('config', AddonConfig);
-					loadScript(info);
+					loadScript(info, ui);
 					enableCtrl.text('已启用');
 					enableCtrl.unbind();
 					enableCtrl.click(() => {

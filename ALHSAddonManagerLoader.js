@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         艾利浩斯图书馆插件管理器
 // @namespace    https://ailihaosi.xyz/
-// @version      0.2.1
+// @version      0.2.2
 // @description  为图书馆的插件提供方便的设置和更新功能
 // @author       nekosu
 // @include      https://ailihaosi.xyz/**
@@ -41,7 +41,7 @@
 			src: script
 		};
 	}
-	function runScript(name, config) {
+	function runScript(name, config, panel) {
 		eval(cache[name].src);
 	}
 	let AddonInfo = JSON.parse(await request('https://neko-para.github.io/ALHS/ALHSAM.json'));
@@ -60,5 +60,5 @@
 	}
 	await Promise.all(pros);
 	GM_setValue('cache', cache);
-	runScript('ALHSAddonManager', null);
+	runScript('ALHSAddonManager');
 })();
