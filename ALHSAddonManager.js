@@ -97,6 +97,7 @@
 	pointer-events: auto;
 }
 .ALHS_AM_FS legend {
+	width: 100%;
 	margin: 0px;
 }
 .ALHS_AM_FS > div {
@@ -140,7 +141,21 @@
 		return panel;
 	}
 
-	addSection('ALHSAddonManager');
+	function registerVisibleControl(ui, name) {
+		let state = true;
+		if ('expand' in AddonConfig[name]) {
+			state = AddonConfig[name].expand;
+		}
+		ui.css('display', state ? 'block' : 'none');
+		$('legend', ui.parent()).click(function () {
+			state = !state;
+			ui.css('display', state ? 'block' : 'none');
+			AddonConfig[name].expand = state;
+			updateConfig();
+		});
+	}
+
+	registerVisibleControl(addSection('ALHSAddonManager'), 'ALHSAddonManager');
 
 	queryAddonNames().forEach(k => {
 		let obj = queryInfo(k);
@@ -152,21 +167,7 @@
 			};
 			updateConfig();
 		}
-		(function () {
-			let ui = panel;
-			let name = k;
-			let state = true;
-			if ('expand' in AddonConfig[name]) {
-				state = AddonConfig[name].expand;
-			}
-			ui.css('display', state ? 'block' : 'none');
-			$('legend', ui.parent()).click(function () {
-				state = !state;
-				ui.css('display', state ? 'block' : 'none');
-				AddonConfig[name].expand = state;
-				updateConfig();
-			});
-		})();
+		registerVisibleControl(panel, k);
 		function loadScript(o, p) {
 			let config = AddonConfig[k]; // eslint-disable-line no-unused-vars
 			let panel = p; // eslint-disable-line no-unused-vars
