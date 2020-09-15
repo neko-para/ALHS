@@ -174,10 +174,11 @@
 			let enableCtrl = $('<span class="ALHS_AM_CLICKABLE">已禁用</span>');
 			(function () {
 				let name = k;
+				let info = obj;
 				enableCtrl.click(() => {
 					AddonConfig[name].enable = true;
 					GM_setValue('config', AddonConfig);
-					loadScript(result.info[name]);
+					loadScript(info);
 					enableCtrl.text('已启用');
 					enableCtrl.unbind();
 					enableCtrl.click(() => {

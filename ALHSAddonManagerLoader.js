@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         艾利浩斯图书馆插件管理器
 // @namespace    https://ailihaosi.xyz/
-// @version      0.2.0
+// @version      0.2.1
 // @description  为图书馆的插件提供方便的设置和更新功能
 // @author       nekosu
 // @include      https://ailihaosi.xyz/**
@@ -29,12 +29,17 @@
 		});
 	}
 	async function updateScript(name, version, url) {
-		if (!(name in cache) || cache[name].ver != version) {
-			cache[name] = {
-				ver: version,
-				src: await request(url)
-			};
+		if (name in cache && cache[name].ver == version) {
+			return;
 		}
+		let script = await(request(url));
+		if (name in cache && cache[name].src == script) {
+			return;
+		}
+		cache[name] = {
+			ver: version,
+			src: script
+		};
 	}
 	function runScript(name, config) {
 		eval(cache[name].src);
