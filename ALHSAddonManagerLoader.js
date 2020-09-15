@@ -41,8 +41,8 @@
 			src: script
 		};
 	}
-	function runScript(name, config, panel) {
-		eval(cache[name].src);
+	function getScript(name) {
+		return cache[name].src;
 	}
 	let AddonInfo = JSON.parse(await request('https://neko-para.github.io/ALHS/ALHSAM.json'));
 	function queryAddonNames() {
@@ -60,5 +60,5 @@
 	}
 	await Promise.all(pros);
 	GM_setValue('cache', cache);
-	runScript('ALHSAddonManager');
+	eval(getScript('ALHSAddonManager'));
 })();
