@@ -5,7 +5,7 @@
 	},
 	"info": {
 		"ALHSAddonManager": {
-			"ver": "0.1.4",
+			"ver": "0.1.5",
 			"author": "nekosu",
 			"src": "/ALHSAddonManager.js",
 			"desc": "插件管理器"

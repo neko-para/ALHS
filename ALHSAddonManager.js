@@ -155,7 +155,7 @@
 			let config = AddonConfig[k];
 			let panel = p;
 			if (o.act[PageInfo.type]) {
-				eval(getScript(k);
+				eval(getScript(k));
 			} else {
 				p.append('<span>此页面不适用</span>');
 			}
