@@ -120,14 +120,6 @@
 	<div id='ALHS_AM_RIGHTPANNEL'></div>
 </div>`));
 
-	(function() {
-		let state = false;
-		$('#ALHS_AM_RIGHTPANNEL_BUTTON').click(() => {
-			state = !state;
-			$('#ALHS_AM_RIGHTDIV').css('right', state ? '0px' : '-200px');
-		});
-	})();
-	
 	function updateConfig() {
 		GM_setValue('config', AddonConfig);
 	}
@@ -154,6 +146,26 @@
 			updateConfig();
 		});
 	}
+
+	if (!('ALHSAddonManager' in AddonConfig)) {
+		AddonConfig.ALHSAddonManager = {
+			enable: true,
+			expand: true,
+			panelExpand: false
+		};
+		updateConfig();
+	}
+
+	(function() {
+		let state = AddonConfig.ALHSAddonManager.panelExpand;
+		$('#ALHS_AM_RIGHTDIV').css('right', state ? '0px' : '-200px');
+		$('#ALHS_AM_RIGHTPANNEL_BUTTON').click(() => {
+			state = !state;
+			AddonConfig.ALHSAddonManager.panelExpand = state;
+			updateConfig();
+			$('#ALHS_AM_RIGHTDIV').css('right', state ? '0px' : '-200px');
+		});
+	})();
 
 	registerVisibleControl(addSection('ALHSAddonManager'), 'ALHSAddonManager');
 
